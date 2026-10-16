@@ -1,7 +1,7 @@
 export const BRAND_NAME = 'Mesas Plegables Benhur Ospina'
 
 // Reemplaza por el número real con indicativo de país, sin "+" ni espacios.
-export const WHATSAPP_NUMBER = '573001234567'
+export const WHATSAPP_NUMBER = '573142004393'
 
 export const NAV_LINKS = [
   { href: '#catalogo', label: 'Catálogo' },

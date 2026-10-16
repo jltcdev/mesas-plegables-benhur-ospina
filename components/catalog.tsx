@@ -294,7 +294,7 @@ function CustomCard() {
 
   return (
     <article className="flex h-full flex-col justify-between overflow-hidden rounded-xl border-2 border-dashed border-primary/40 bg-primary text-primary-foreground">
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-5">
         <span className="flex size-12 items-center justify-center rounded-lg bg-primary-foreground/10">
           <Scissors className="size-6" aria-hidden="true" />
         </span>
