@@ -150,7 +150,7 @@ function ProductCard({
   )
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+    <article className="flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <AnimatePresence initial={false}>
           <motion.div
@@ -206,7 +206,8 @@ function ProductCard({
         ))}
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col justify-between p-5">
+        <div>
         <h3 className="font-heading text-xl font-bold text-card-foreground">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
@@ -221,8 +222,9 @@ function ProductCard({
             </li>
           ))}
         </ul>
+        </div>
 
-        <div className="mt-5 grid gap-3">
+        <div className="mt-auto flex flex-col gap-3 pt-5">
           <div>
             <label htmlFor={selectId} className="text-sm font-semibold text-foreground">
               {sizeLabel}
@@ -269,17 +271,17 @@ function ProductCard({
               <span className="font-semibold text-foreground">{FIXED_HEIGHT}</span>
             </div>
           </div>
-        </div>
 
         <a
           href={quoteUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-4 py-3 text-sm font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
+          className="mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-4 py-3 text-sm font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
         >
           <WhatsAppIcon className="size-4" />
           Cotizar esta medida
         </a>
+        </div>
       </div>
     </article>
   )
@@ -291,7 +293,7 @@ function CustomCard() {
   )
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border-2 border-dashed border-primary/40 bg-primary text-primary-foreground">
+    <article className="flex h-full flex-col justify-between overflow-hidden rounded-xl border-2 border-dashed border-primary/40 bg-primary text-primary-foreground">
       <div className="flex flex-1 flex-col p-6">
         <span className="flex size-12 items-center justify-center rounded-lg bg-primary-foreground/10">
           <Scissors className="size-6" aria-hidden="true" />
@@ -314,12 +316,11 @@ function CustomCard() {
             </li>
           ))}
         </ul>
-        <div className="flex-1" />
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center justify-center gap-2 rounded-md bg-primary-foreground px-4 py-3 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
+          className="mt-auto inline-flex items-center justify-center gap-2 rounded-md bg-primary-foreground px-4 py-3 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
         >
           <WhatsAppIcon className="size-4 text-whatsapp" />
           Solicitar Medida Especial
