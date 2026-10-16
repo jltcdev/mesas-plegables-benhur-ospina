@@ -1,4 +1,4 @@
-import { PackageCheck } from 'lucide-react'
+import { BrandLogo } from '@/components/brand-logo'
 import { BRAND_NAME, DEFAULT_WHATSAPP_URL, NAV_LINKS } from '@/lib/site'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 
@@ -8,14 +8,11 @@ export function SiteFooter() {
       <footer className="bg-foreground text-background">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex size-9 items-center justify-center rounded-md bg-background/10">
-                <PackageCheck className="size-5" aria-hidden="true" />
-              </span>
-              <span className="font-heading font-bold">{BRAND_NAME}</span>
-            </div>
-            <p className="mt-3 text-sm leading-relaxed text-background/60">
-              Mobiliario de Alta Resistencia para Eventos, Banquetes y Hogar.
+            <a href="#inicio" aria-label={`${BRAND_NAME} - Inicio`} className="inline-block">
+              <BrandLogo tone="light" />
+            </a>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-background/60">
+              Fabricantes directos de mesas plegables de alta resistencia para eventos, banquetes, alquiler y hogar.
             </p>
           </div>
 
@@ -58,9 +55,14 @@ export function SiteFooter() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Cotizar por WhatsApp"
-        className="fixed bottom-5 right-5 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-lg ring-4 ring-whatsapp/20 transition-transform hover:scale-105 hover:bg-whatsapp-hover"
+        className="group fixed bottom-5 right-5 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-lg shadow-whatsapp/30 transition-transform duration-300 hover:scale-110 hover:bg-whatsapp-hover"
       >
-        <WhatsAppIcon className="size-7" />
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 rounded-full bg-whatsapp opacity-60 motion-safe:animate-ping [animation-duration:2s]"
+        />
+        <span aria-hidden="true" className="absolute -inset-1.5 rounded-full ring-2 ring-whatsapp/30 motion-safe:animate-pulse" />
+        <WhatsAppIcon className="relative size-7" />
       </a>
     </>
   )

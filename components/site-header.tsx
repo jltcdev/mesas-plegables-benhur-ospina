@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, PackageCheck, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { BrandLogo } from '@/components/brand-logo'
 import { BRAND_NAME, DEFAULT_WHATSAPP_URL, NAV_LINKS } from '@/lib/site'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 
@@ -11,14 +12,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <a href="#inicio" className="flex items-center gap-2" aria-label={`${BRAND_NAME} - Inicio`}>
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <PackageCheck className="size-5" aria-hidden="true" />
-          </span>
-          <span className="font-heading text-sm font-bold leading-tight text-foreground sm:text-base">
-            Mesas Plegables
-            <span className="block text-xs font-medium text-muted-foreground sm:text-sm">Benhur Ospina</span>
-          </span>
+        <a href="#inicio" className="shrink-0" aria-label={`${BRAND_NAME} - Inicio`}>
+          <BrandLogo />
         </a>
 
         <nav aria-label="Principal" className="hidden md:block">

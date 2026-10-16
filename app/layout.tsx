@@ -12,12 +12,8 @@ export const metadata: Metadata = {
     'Mesas plegables rectangulares, redondas y sobre medida. Fabricación directa, tubo calibre 18 y 16, pintura electrostática y refuerzo inferior. Cotiza por WhatsApp.',
   generator: 'v0.app',
   icons: {
-    icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png',
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: '/icon.svg',
   },
 }
 

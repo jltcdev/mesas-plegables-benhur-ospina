@@ -43,7 +43,10 @@ export function Specs() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {SPECS.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="rounded-xl border border-border bg-card p-6">
+            <div
+              key={title}
+              className="rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl"
+            >
               <span className="flex size-11 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Icon className="size-5" aria-hidden="true" />
               </span>

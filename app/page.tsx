@@ -5,6 +5,7 @@ import { Specs } from '@/components/specs'
 import { CustomMade } from '@/components/custom-made'
 import { QuoteForm } from '@/components/quote-form'
 import { SiteFooter } from '@/components/site-footer'
+import { Reveal } from '@/components/reveal'
 
 export default function Page() {
   return (
@@ -12,10 +13,18 @@ export default function Page() {
       <SiteHeader />
       <main>
         <Hero />
-        <Catalog />
-        <Specs />
-        <CustomMade />
-        <QuoteForm />
+        <Reveal>
+          <Catalog />
+        </Reveal>
+        <Reveal>
+          <Specs />
+        </Reveal>
+        <Reveal>
+          <CustomMade />
+        </Reveal>
+        <Reveal>
+          <QuoteForm />
+        </Reveal>
       </main>
       <SiteFooter />
     </>

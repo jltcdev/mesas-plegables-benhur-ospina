@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react'
 import Image from 'next/image'
+import { AnimatePresence, motion } from 'motion/react'
 import { CheckCircle2, ChevronDown, Ruler, Scissors, Sparkles } from 'lucide-react'
 import {
   buildWhatsAppUrl,
@@ -137,10 +138,21 @@ function ProductCard({
   )
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-      <div className="relative aspect-[4/3] bg-muted">
-        <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover" />
-        <span className="absolute left-3 top-3 rounded-md bg-background/90 px-2 py-1 text-xs font-semibold text-foreground">
+    <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={photo.src}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          >
+            <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover" />
+          </motion.div>
+        </AnimatePresence>
+        <span className="absolute left-3 top-3 z-10 rounded-md bg-background/90 px-2 py-1 text-xs font-semibold text-foreground">
           {photo.finish}
         </span>
       </div>
@@ -200,12 +212,31 @@ function ProductCard({
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             </div>
           </div>
-          <div className="flex items-center justify-between rounded-md bg-muted px-3 py-2.5 text-sm">
-            <span className="flex items-center gap-2 text-muted-foreground">
-              <Ruler className="size-4" aria-hidden="true" />
-              Altura fija
-            </span>
-            <span className="font-semibold text-foreground">{FIXED_HEIGHT}</span>
+          <div className="grid gap-2 rounded-md bg-muted px-3 py-2.5 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-muted-foreground">Medida seleccionada</span>
+              <span className="relative h-5 overflow-hidden" aria-live="polite">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={size}
+                    className="block font-semibold text-primary"
+                    initial={{ y: 12, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -12, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: 'easeOut' }}
+                  >
+                    {size}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="flex items-center gap-2 text-muted-foreground">
+                <Ruler className="size-4" aria-hidden="true" />
+                Altura fija
+              </span>
+              <span className="font-semibold text-foreground">{FIXED_HEIGHT}</span>
+            </div>
           </div>
         </div>
 
