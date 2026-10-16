@@ -11,81 +11,67 @@ const STATS = [
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 md:grid-cols-2 md:py-20">
-        <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-3 py-1.5 text-xs font-medium sm:text-sm">
-            <ShieldCheck className="size-4 shrink-0 text-whatsapp-light" aria-hidden="true" />
-            {'Fabricación Directa • Calibre 18 y 16 • Pintura Electrostática'}
-          </p>
+    <section
+      id="inicio"
+      className="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-slate-950 text-white"
+    >
+      <Image
+        src="/images/salon-eventos.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="-z-20 object-cover"
+      />
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/85 via-slate-900/80 to-slate-950/90 backdrop-blur-[2px]"
+        aria-hidden="true"
+      />
 
-          <h1 className="mt-6 text-balance font-heading text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-            Mesas Plegables Benhur Ospina
-          </h1>
-          <p className="mt-4 text-pretty text-lg font-semibold text-primary-foreground/90 sm:text-xl">
-            Mobiliario de Alta Resistencia para Eventos, Banquetes y Hogar
-          </p>
-          <p className="mt-4 max-w-xl text-pretty leading-relaxed text-primary-foreground/75">
-            Diseñadas para uso pesado en banquetes, alquileres y hogar. Estructuras reforzadas por la parte inferior,
-            acabado duradero y fabricación estándar o sobre medida.
-          </p>
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-20 text-center md:py-28">
+        <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur-sm sm:text-sm">
+          <ShieldCheck className="size-4 shrink-0 text-whatsapp-light" aria-hidden="true" />
+          {'Fabricación Directa • Calibre 18 y 16 • Pintura Electrostática'}
+        </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#catalogo"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-primary-foreground px-6 py-3.5 text-base font-semibold text-primary transition-opacity hover:opacity-90"
-            >
-              Explorar Catálogo
-              <ArrowDown className="size-4" aria-hidden="true" />
-            </a>
-            <a
-              href={DEFAULT_WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-6 py-3.5 text-base font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
-            >
-              <WhatsAppIcon className="size-5" />
-              Cotizar por WhatsApp
-            </a>
-          </div>
+        <h1 className="mt-6 text-balance font-heading text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
+          Mesas Plegables Benhur Ospina
+        </h1>
+        <p className="mt-5 text-pretty text-lg font-semibold text-white/90 sm:text-2xl">
+          Mobiliario de Alta Resistencia para Eventos, Banquetes y Hogar
+        </p>
+        <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-white/75 sm:text-lg">
+          Diseñadas para uso pesado en banquetes, alquileres y hogar. Estructuras reforzadas por la parte inferior,
+          acabado duradero y fabricación estándar o sobre medida.
+        </p>
 
-          <dl className="mt-10 grid grid-cols-3 gap-4 border-t border-primary-foreground/15 pt-6">
-            {STATS.map((stat) => (
-              <div key={stat.label}>
-                <dt className="text-xs text-primary-foreground/60 sm:text-sm">{stat.label}</dt>
-                <dd className="mt-1 font-heading text-base font-bold sm:text-xl">{stat.value}</dd>
-              </div>
-            ))}
-          </dl>
+        <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <a
+            href="#catalogo"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-7 py-3.5 text-base font-semibold text-slate-900 transition-opacity hover:opacity-90"
+          >
+            Explorar Catálogo
+            <ArrowDown className="size-4" aria-hidden="true" />
+          </a>
+          <a
+            href={DEFAULT_WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-7 py-3.5 text-base font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
+          >
+            <WhatsAppIcon className="size-5" />
+            Cotizar por WhatsApp
+          </a>
         </div>
 
-        <div className="relative">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-primary-foreground/10 shadow-2xl">
-            <Image
-              src="/images/salon-eventos.jpg"
-              alt="Salón de eventos montado con mesas redondas plegables y sillas vestidas"
-              fill
-              priority
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="absolute -bottom-6 left-4 right-4 flex items-center gap-3 rounded-lg bg-background p-3 text-foreground shadow-xl sm:left-auto sm:right-6 sm:w-72">
-            <div className="relative size-14 shrink-0 overflow-hidden rounded-md bg-muted">
-              <Image
-                src="/images/mesa-redonda-refuerzo.jpeg"
-                alt="Vista inferior de mesa redonda con refuerzos metálicos"
-                fill
-                sizes="56px"
-                className="object-cover"
-              />
+        <dl className="mt-12 grid w-full max-w-2xl grid-cols-3 divide-x divide-white/15 rounded-xl border border-white/15 bg-white/5 py-5 backdrop-blur-sm">
+          {STATS.map((stat) => (
+            <div key={stat.label} className="flex flex-col-reverse px-2">
+              <dt className="mt-1 text-xs text-white/65 sm:text-sm">{stat.label}</dt>
+              <dd className="font-heading text-base font-bold sm:text-2xl">{stat.value}</dd>
             </div>
-            <div>
-              <p className="text-sm font-bold">Refuerzo inferior</p>
-              <p className="text-xs text-muted-foreground">Soporta alto peso en uso continuo</p>
-            </div>
-          </div>
-        </div>
+          ))}
+        </dl>
       </div>
     </section>
   )
