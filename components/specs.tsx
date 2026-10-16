@@ -24,6 +24,33 @@ const SPECS = [
   },
 ]
 
+const DETAILS = [
+  {
+    src: '/images/galeria/mesa_cuadrada_11.jpeg',
+    alt: 'Refuerzos laterales en tubo cuadrado bajo la cubierta de madera',
+    title: 'Refuerzo inferior',
+    text: 'Travesaños laterales a lo largo de la cubierta.',
+  },
+  {
+    src: '/images/galeria/mesa_cuadrada_10.jpeg',
+    alt: 'Patas en tubo cuadrado calibre 18 y 16 plegadas bajo la cubierta',
+    title: 'Tubo calibre 18 / 16',
+    text: 'Patas en tubo cuadrado con pintura electrostática.',
+  },
+  {
+    src: '/images/galeria/mesa_cuadrada_13.jpeg',
+    alt: 'Bisagra metálica atornillada con seguro de pata',
+    title: 'Bisagra con seguro',
+    text: 'Anclaje atornillado que bloquea la pata abierta.',
+  },
+  {
+    src: '/images/galeria/mesa_cuadrada_14.jpeg',
+    alt: 'Tuerca de seguridad tipo bellota en la unión de la pata',
+    title: 'Tornillería de seguridad',
+    text: 'Tuercas de bellota en cada punto de articulación.',
+  },
+]
+
 export function Specs() {
   return (
     <section id="especificaciones" className="scroll-mt-20 py-20">
@@ -57,10 +84,10 @@ export function Specs() {
         </div>
 
         <figure className="mt-10 grid overflow-hidden rounded-xl border border-border bg-card md:grid-cols-2">
-          <div className="relative aspect-[4/3] md:aspect-auto">
+          <div className="relative aspect-[3/4] md:aspect-auto md:min-h-[32rem]">
             <Image
-              src="/images/mesa-redonda-refuerzo.jpeg"
-              alt="Parte inferior de mesa redonda con travesaños metálicos de refuerzo y patas plegables"
+              src="/images/galeria/mesa_cuadrada_09.jpeg"
+              alt="Parte inferior de mesa rectangular con estructura en tubo cuadrado y travesaños de refuerzo"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover"
@@ -84,6 +111,26 @@ export function Specs() {
             </dl>
           </figcaption>
         </figure>
+
+        <ul className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {DETAILS.map((d) => (
+            <li key={d.src} className="group overflow-hidden rounded-xl border border-border bg-card">
+              <div className="relative aspect-square overflow-hidden bg-muted">
+                <Image
+                  src={d.src}
+                  alt={d.alt}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-heading text-sm font-bold text-card-foreground sm:text-base">{d.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">{d.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
