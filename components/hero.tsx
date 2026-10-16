@@ -24,7 +24,7 @@ export function Hero() {
         className="-z-20 object-cover"
       />
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/85 via-slate-900/80 to-slate-950/90 backdrop-blur-[2px]"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/85 via-slate-900/80 to-slate-950/90"
         aria-hidden="true"
       />
 
