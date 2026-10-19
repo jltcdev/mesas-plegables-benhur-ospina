@@ -7,7 +7,7 @@ export const SITE_CONFIG = {
   url: 'https://mesas-plegables-benhur-ospina.vercel.app',
 
   contact: {
-    phone: '+57 314 200 4393',
+    phone: '(+57) 314 200 4393',
     phoneRaw: '+573142004393',
     whatsappNumber: '573142004393',
     email: 'mesasplegables.benhurospina@gmail.com',
