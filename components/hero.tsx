@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { ArrowDown, ShieldCheck } from 'lucide-react'
 import { DEFAULT_WHATSAPP_URL } from '@/lib/site'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
+import { MapPin } from 'lucide-react'
 
 const STATS = [
   { value: 'Calibre 18 y 16', label: 'Tubo cuadrado' },
@@ -29,9 +30,9 @@ export function Hero() {
       />
 
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-20 text-center md:py-28">
-        <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur-sm sm:text-sm">
-          <ShieldCheck className="size-4 shrink-0 text-whatsapp-light" aria-hidden="true" />
-          {'Fabricación Directa • Calibre 18 y 16 • Pintura Electrostática'}
+        <p className="text-white/90 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur-sm sm:text-sm">
+          <MapPin className="size-4 text-primary" aria-hidden="true" />
+          {'Envíos a toda Colombia • Garantía de Fábrica'}
         </p>
 
         <h1 className="mt-6 text-balance font-heading text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
