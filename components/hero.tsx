@@ -31,7 +31,7 @@ export function Hero() {
 
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-20 text-center md:py-28">
         <p className="text-white/90 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur-sm sm:text-sm">
-          <MapPin className="size-4 text-primary" aria-hidden="true" />
+          <MapPin className="size-3.5 text-emerald-400" />
           {'Envíos a toda Colombia • Garantía de Fábrica'}
         </p>
 

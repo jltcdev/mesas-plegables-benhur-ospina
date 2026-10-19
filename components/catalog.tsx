@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import { CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Ruler, Scissors, Sparkles } from 'lucide-react'
 import {
-  buildWhatsAppUrl,
+  SITE_CONFIG,
+  getWhatsAppUrl,
   FIXED_HEIGHT,
   RECTANGULAR_SIZES,
   ROUND_SIZES,
@@ -59,10 +60,13 @@ export function Catalog() {
     <section id="catalogo" className="scroll-mt-20 bg-muted/50 py-20 pt-24">
       <div className="mx-auto max-w-6xl px-4">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">Catálogo</p>
-          <h2 className="mt-2 text-balance font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-            Elige tu mesa y cotiza al instante
+          {/* H2 Principal de Sección */}
+          <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            Catálogo de Productos
           </h2>
+          <p className="mt-2 text-lg font-medium text-primary">
+            Elige tu mesa y cotiza al instante
+          </p>
           <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">
             Selecciona la medida que necesitas y envíanos tu solicitud directamente por WhatsApp.
           </p>
@@ -145,8 +149,8 @@ function ProductCard({
   const photo = photos[photoIndex]
   const goTo = (step: number) => setPhotoIndex((i) => (i + step + photos.length) % photos.length)
 
-  const quoteUrl = buildWhatsAppUrl(
-    `Hola, quiero cotizar: ${productName}\nMedida: ${size}\nAltura: ${FIXED_HEIGHT}\nAcabado de referencia: ${photo.finish}`,
+  const quoteUrl = getWhatsAppUrl(
+    `Hola ${SITE_CONFIG.fullName}, quiero cotizar: ${productName}\nMedida: ${size}\nAltura: ${FIXED_HEIGHT}\nAcabado de referencia: ${photo.finish}`,
   )
 
   return (
@@ -208,20 +212,20 @@ function ProductCard({
 
       <div className="flex flex-1 flex-col justify-between p-5">
         <div>
-        <h3 className="font-heading text-xl font-bold text-card-foreground">{title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
+          <h3 className="font-heading text-xl font-bold text-card-foreground">{title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
-        <ul className="mt-4 flex flex-wrap gap-2">
-          {badges.map((badge) => (
-            <li
-              key={badge}
-              className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
-            >
-              <CheckCircle2 className="size-3.5" aria-hidden="true" />
-              {badge}
-            </li>
-          ))}
-        </ul>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {badges.map((badge) => (
+              <li
+                key={badge}
+                className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
+              >
+                <CheckCircle2 className="size-3.5" aria-hidden="true" />
+                {badge}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-auto flex flex-col gap-3 pt-5">
@@ -272,15 +276,15 @@ function ProductCard({
             </div>
           </div>
 
-        <a
-          href={quoteUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-4 py-3 text-sm font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
-        >
-          <WhatsAppIcon className="size-4" />
-          Cotizar esta medida
-        </a>
+          <a
+            href={quoteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-whatsapp px-4 py-3 text-sm font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover"
+          >
+            <WhatsAppIcon className="size-4" />
+            Cotizar esta medida
+          </a>
         </div>
       </div>
     </article>
@@ -288,8 +292,8 @@ function ProductCard({
 }
 
 function CustomCard() {
-  const url = buildWhatsAppUrl(
-    'Hola, necesito una mesa plegable sobre medida.\nLargo: \nAncho: \nAlto: \nCantidad: ',
+  const url = getWhatsAppUrl(
+    `Hola ${SITE_CONFIG.fullName}, necesito una mesa plegable sobre medida.\nLargo: \nAncho: \nAlto: \nCantidad: `,
   )
 
   return (

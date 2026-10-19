@@ -3,8 +3,8 @@
 import { useState, type FormEvent } from 'react'
 import { ChevronDown, MapPin, MessageSquareText } from 'lucide-react'
 import {
-  BRAND_NAME,
-  buildWhatsAppUrl,
+  SITE_CONFIG,
+  getWhatsAppUrl,
   FIXED_HEIGHT,
   RECTANGULAR_SIZES,
   ROUND_SIZES,
@@ -43,14 +43,14 @@ export function QuoteForm() {
     setError('')
 
     const lines = [
-      `Hola ${BRAND_NAME}, quiero una cotización:`,
+      `Hola ${SITE_CONFIG.fullName}, quiero una cotización:`,
       `• Tipo de mesa: ${type}`,
       `• Medida: ${measure}`,
       ...(type === 'Sobre Medida' ? [] : [`• Altura: ${FIXED_HEIGHT}`]),
       `• Cantidad: ${qty}`,
       `• Ciudad de envío: ${city.trim()}`,
     ]
-    window.open(buildWhatsAppUrl(lines.join('\n')), '_blank', 'noopener,noreferrer')
+    window.open(getWhatsAppUrl(lines.join('\n')), '_blank', 'noopener,noreferrer')
   }
 
   const sizes = type === 'Rectangular' ? RECTANGULAR_SIZES : ROUND_SIZES
@@ -59,10 +59,13 @@ export function QuoteForm() {
     <section id="contacto" className="scroll-mt-20 bg-muted/50 py-20">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-5">
         <div className="md:col-span-2">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">Cotización rápida</p>
-          <h2 className="mt-2 text-balance font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-            Arma tu pedido en 30 segundos
+          {/* H2 Principal del Bloque */}
+          <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            Cotización Rápida
           </h2>
+          <p className="mt-2 text-lg font-medium text-primary">
+            Arma tu pedido en 30 segundos
+          </p>
           <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">
             Completa los datos y te llevamos directo a WhatsApp con el mensaje listo. Te respondemos con precio y
             tiempos de entrega.
