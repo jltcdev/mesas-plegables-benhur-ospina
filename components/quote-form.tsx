@@ -9,6 +9,11 @@ import {
   RECTANGULAR_SIZES,
   ROUND_SIZES,
 } from '@/lib/site'
+import {
+  sanitizeInteger,
+  sanitizeCity,
+  sanitizeDimensionInput,
+} from '@/lib/validators'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 
 type TableType = 'Rectangular' | 'Redonda' | 'Sobre Medida'
@@ -59,7 +64,6 @@ export function QuoteForm() {
     <section id="contacto" className="scroll-mt-20 bg-muted/50 py-20">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-5">
         <div className="md:col-span-2">
-          {/* H2 Principal del Bloque */}
           <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
             Cotización Rápida
           </h2>
@@ -118,7 +122,7 @@ export function QuoteForm() {
                 id="medida"
                 type="text"
                 value={customSize}
-                onChange={(e) => setCustomSize(e.target.value)}
+                onChange={(e) => setCustomSize(sanitizeDimensionInput(e.target.value))}
                 placeholder="Ej: 2.40m x 90cm x 75cm alto"
                 maxLength={120}
                 className={`${inputClass} mt-1.5`}
@@ -148,12 +152,12 @@ export function QuoteForm() {
             </label>
             <input
               id="cantidad"
-              type="number"
+              type="text"
               inputMode="numeric"
-              min={1}
-              max={10000}
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => setQuantity(sanitizeInteger(e.target.value))}
+              placeholder="Ej: 10"
+              maxLength={5}
               className={`${inputClass} mt-1.5`}
             />
           </div>
@@ -167,7 +171,7 @@ export function QuoteForm() {
               type="text"
               autoComplete="address-level2"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => setCity(sanitizeCity(e.target.value))}
               placeholder="Ej: Bogotá"
               maxLength={80}
               className={`${inputClass} mt-1.5`}
