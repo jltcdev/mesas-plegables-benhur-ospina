@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback, MouseEvent } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { AnimatePresence, motion } from 'motion/react'
-import { Maximize2, X, ZoomIn } from 'lucide-react'
+import { Maximize2 } from 'lucide-react'
 import { SITE_CONFIG, getWhatsAppUrl } from '@/lib/site'
 import {
   TECHNICAL_SPECS,
@@ -11,32 +10,16 @@ import {
   SPEC_DETAILS_GALLERY,
   type DetailImage,
 } from '@/lib/specs-data'
-import { WhatsAppIcon } from '@/components/whatsapp-icon'
+import { ImageLightbox } from '@/components/ui/image-lightbox'
 
 export function Specs() {
   const [activeImage, setActiveImage] = useState<DetailImage | null>(null)
-  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
-  const [isZoomed, setIsZoomed] = useState(false)
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - left) / width) * 100
-    const y = ((e.clientY - top) / height) * 100
-    setZoomPos({ x, y })
-  }
-
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') setActiveImage(null)
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleKeyDown])
-
-  const whatsappUrl = getWhatsAppUrl(
-    `Hola ${SITE_CONFIG.fullName}, vi el detalle técnico de "${activeImage?.title}" y me interesa cotizar.`,
-  )
+  const whatsappUrl = activeImage
+    ? getWhatsAppUrl(
+        `Hola ${SITE_CONFIG.fullName}, vi el detalle técnico de "${activeImage.title}" y me interesa cotizar.`,
+      )
+    : undefined
 
   return (
     <section id="especificaciones" className="scroll-mt-20 py-20">
@@ -141,78 +124,16 @@ export function Specs() {
         </ul>
       </div>
 
-      {/* MODAL LIGHTBOX CON ZOOM INTERACTIVO */}
-      <AnimatePresence>
-        {activeImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
-            onClick={() => setActiveImage(null)}
-          >
-            <button
-              type="button"
-              onClick={() => setActiveImage(null)}
-              className="absolute right-4 top-4 z-50 flex size-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all hover:bg-white/30 hover:scale-110"
-              aria-label="Cerrar visor"
-            >
-              <X className="size-6" />
-            </button>
-
-            <div
-              className="relative flex max-h-[92vh] w-full max-w-4xl flex-col items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div
-                className="relative aspect-[4/3] w-full max-h-[72vh] overflow-hidden rounded-xl bg-black cursor-crosshair"
-                onMouseEnter={() => setIsZoomed(true)}
-                onMouseLeave={() => setIsZoomed(false)}
-                onMouseMove={handleMouseMove}
-              >
-                <div
-                  className="relative h-full w-full transition-transform duration-150 ease-out"
-                  style={{
-                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                    transform: isZoomed ? 'scale(2.2)' : 'scale(1)',
-                  }}
-                >
-                  <Image
-                    src={activeImage.src}
-                    alt={activeImage.alt}
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-
-                {!isZoomed && (
-                  <span className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-                    <ZoomIn className="size-3.5" /> Pasa el cursor para hacer zoom
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-4 flex w-full flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
-                <div>
-                  <h4 className="text-lg font-bold text-white">{activeImage.title}</h4>
-                  <p className="text-xs text-slate-300">{activeImage.text}</p>
-                </div>
-
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-whatsapp px-5 py-2.5 text-sm font-semibold text-whatsapp-foreground shadow-lg transition-colors hover:bg-whatsapp-hover"
-                >
-                  <WhatsAppIcon className="size-4" />
-                  Consultar por WhatsApp
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* INTEGRACIÓN DE IMAGELIGHTBOX */}
+      <ImageLightbox
+        isOpen={!!activeImage}
+        onClose={() => setActiveImage(null)}
+        src={activeImage?.src || ''}
+        alt={activeImage?.alt || ''}
+        title={activeImage?.title || ''}
+        subtitle={activeImage?.text}
+        quoteUrl={whatsappUrl}
+      />
     </section>
   )
 }

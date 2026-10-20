@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState, useEffect, useCallback, MouseEvent } from 'react'
+import { useId, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import {
@@ -12,8 +12,6 @@ import {
   Ruler,
   Scissors,
   Sparkles,
-  X,
-  ZoomIn,
 } from 'lucide-react'
 import {
   SITE_CONFIG,
@@ -25,6 +23,7 @@ import {
 import { RECTANGULAR_PHOTOS, ROUND_PHOTOS, type Photo } from '@/lib/catalog-data'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { cn } from '@/lib/utils'
+import { ImageLightbox } from '@/components/ui/image-lightbox'
 
 type Category = 'todas' | 'rectangulares' | 'redondas' | 'sobre-medida'
 
@@ -51,7 +50,7 @@ export function Catalog() {
             Elige tu mesa y cotiza al instante
           </p>
           <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">
-            Selecciona la medida que necesitas y envíanos tu solicitud directamente por WhatsApp. Haz clic en cualquier imagen para verla en pantalla completa con zoom interactivo.
+            Selecciona la medida que necesitas y envíanos tu solicitud directamente por WhatsApp. Haz clic en cualquier imagen para verla en pantalla completa.
           </p>
         </div>
 
@@ -131,41 +130,14 @@ function ProductCard({
   const [photoIndex, setPhotoIndex] = useState(0)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
-  // Estado para el zoom interactivo con el mouse
-  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
-  const [isZoomed, setIsZoomed] = useState(false)
-
   const photo = photos[photoIndex]
   const goTo = (step: number) => {
-    setIsZoomed(false)
     setPhotoIndex((i) => (i + step + photos.length) % photos.length)
   }
 
   const quoteUrl = getWhatsAppUrl(
     `Hola ${SITE_CONFIG.fullName}, quiero cotizar: ${productName}\nMedida: ${size}\nAltura: ${FIXED_HEIGHT}\nAcabado de referencia: ${photo.finish}`,
   )
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - left) / width) * 100
-    const y = ((e.clientY - top) / height) * 100
-    setZoomPos({ x, y })
-  }
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (!isLightboxOpen) return
-      if (e.key === 'Escape') setIsLightboxOpen(false)
-      if (e.key === 'ArrowLeft') goTo(-1)
-      if (e.key === 'ArrowRight') goTo(1)
-    },
-    [isLightboxOpen],
-  )
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleKeyDown])
 
   return (
     <>
@@ -193,7 +165,6 @@ function ProductCard({
             </motion.div>
           </AnimatePresence>
 
-          {/* Overlay para ampliado */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity pointer-events-none group-hover:opacity-100">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-semibold text-foreground shadow-lg backdrop-blur">
               <Maximize2 className="size-3.5" /> Ampliar imagen
@@ -328,100 +299,20 @@ function ProductCard({
         </div>
       </article>
 
-      {/* MODAL LIGHTBOX CON ZOOM LUPA INTERACTIVO */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            {/* Botón de Cierre */}
-            <button
-              type="button"
-              onClick={() => setIsLightboxOpen(false)}
-              className="absolute right-4 top-4 z-50 flex size-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all hover:bg-white/30 hover:scale-110"
-              aria-label="Cerrar visor"
-            >
-              <X className="size-6" />
-            </button>
-
-            <div
-              className="relative flex max-h-[92vh] w-full max-w-5xl flex-col items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Contenedor de Imagen con Efecto Lupa */}
-              <div
-                className="relative aspect-[4/3] w-full max-h-[72vh] overflow-hidden rounded-xl bg-black cursor-crosshair"
-                onMouseEnter={() => setIsZoomed(true)}
-                onMouseLeave={() => setIsZoomed(false)}
-                onMouseMove={handleMouseMove}
-              >
-                <div
-                  className="relative h-full w-full transition-transform duration-150 ease-out"
-                  style={{
-                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                    transform: isZoomed ? 'scale(2.2)' : 'scale(1)',
-                  }}
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-
-                {!isZoomed && (
-                  <span className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-                    <ZoomIn className="size-3.5" /> Pasa el cursor para hacer zoom
-                  </span>
-                )}
-              </div>
-
-              {/* Botones de Navegación del Visor con Hover Resaltado */}
-              <button
-                type="button"
-                onClick={() => goTo(-1)}
-                className="absolute left-3 top-1/2 z-30 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-xl transition-all hover:scale-110 hover:border-emerald-400 hover:bg-emerald-600"
-                aria-label="Anterior"
-              >
-                <ChevronLeft className="size-8" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => goTo(1)}
-                className="absolute right-3 top-1/2 z-30 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-xl transition-all hover:scale-110 hover:border-emerald-400 hover:bg-emerald-600"
-                aria-label="Siguiente"
-              >
-                <ChevronRight className="size-8" />
-              </button>
-
-              {/* Pie del Visor */}
-              <div className="mt-4 flex w-full flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
-                <div>
-                  <h4 className="text-lg font-bold text-white">{title} — {photo.finish}</h4>
-                  <p className="text-xs text-slate-300">{photoIndex + 1} de {photos.length}: {photo.alt}</p>
-                </div>
-
-                <a
-                  href={quoteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-whatsapp px-5 py-2.5 text-sm font-semibold text-whatsapp-foreground shadow-lg transition-colors hover:bg-whatsapp-hover"
-                >
-                  <WhatsAppIcon className="size-4" />
-                  Cotizar Referencia
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* INTEGACIÓN LIMPIA DE IMAGELIGHTBOX */}
+      <ImageLightbox
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        src={photo.src}
+        alt={photo.alt}
+        title={`${title} — ${photo.finish}`}
+        subtitle={photo.alt}
+        quoteUrl={quoteUrl}
+        onNext={() => goTo(1)}
+        onPrev={() => goTo(-1)}
+        currentIndex={photoIndex}
+        totalCount={photos.length}
+      />
     </>
   )
 }
