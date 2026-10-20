@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState, useEffect, useCallback } from 'react'
+import { useId, useState, useEffect, useCallback, MouseEvent } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import {
@@ -13,6 +13,7 @@ import {
   Scissors,
   Sparkles,
   X,
+  ZoomIn,
 } from 'lucide-react'
 import {
   SITE_CONFIG,
@@ -21,6 +22,7 @@ import {
   RECTANGULAR_SIZES,
   ROUND_SIZES,
 } from '@/lib/site'
+import { RECTANGULAR_PHOTOS, ROUND_PHOTOS, type Photo } from '@/lib/catalog-data'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { cn } from '@/lib/utils'
 
@@ -31,34 +33,6 @@ const TABS: { id: Category; label: string }[] = [
   { id: 'rectangulares', label: 'Rectangulares' },
   { id: 'redondas', label: 'Redondas' },
   { id: 'sobre-medida', label: 'Sobre Medida' },
-]
-
-type Photo = { src: string; alt: string; finish: string }
-
-const RECTANGULAR_PHOTOS: Photo[] = [
-  { src: '/images/mesa-rectangular-madera.jpeg', alt: 'Mesa rectangular plegable con cubierta de madera natural', finish: 'Madera natural' },
-  { src: '/images/mesa-rectangular-negra.jpeg', alt: 'Mesa rectangular plegable con cubierta negra', finish: 'Negro' },
-  { src: '/images/mesa-rectangular-blanca.jpeg', alt: 'Mesa rectangular plegable con cubierta blanca', finish: 'Blanco' },
-  { src: '/images/mesa-rectangular-caoba.jpeg', alt: 'Mesa rectangular plegable con cubierta color caoba', finish: 'Caoba' },
-  { src: '/images/mesa-rectangular-gris.jpeg', alt: 'Mesa rectangular plegable larga con cubierta gris oscuro', finish: 'Gris grafito' },
-  { src: '/images/galeria/mesa_cuadrada_06.jpeg', alt: 'Detalle de esquina redondeada con canto protector negro en cubierta blanca', finish: 'Detalle del canto' },
-  { src: '/images/galeria/mesa_cuadrada_07.jpeg', alt: 'Vista lateral de las patas plegables con bisagras de seguro', finish: 'Patas y bisagras' },
-  { src: '/images/galeria/mesa_cuadrada_09.jpeg', alt: 'Vista inferior de mesa rectangular larga con travesaños de refuerzo', finish: 'Vista inferior' },
-  { src: '/images/galeria/mesa_cuadrada_08.jpeg', alt: 'Mesa rectangular plegada mostrando la estructura en tubo cuadrado', finish: 'Mesa plegada' },
-  { src: '/images/galeria/mesa_cuadrada_10.jpeg', alt: 'Estructura metálica plegada bajo cubierta de madera', finish: 'Estructura plegada' },
-  { src: '/images/galeria/mesa_cuadrada_11.jpeg', alt: 'Parte inferior de mesa rectangular con refuerzos laterales', finish: 'Refuerzo inferior' },
-  { src: '/images/galeria/mesa_cuadrada_13.jpeg', alt: 'Primer plano de bisagra atornillada a la cubierta', finish: 'Bisagra con seguro' },
-  { src: '/images/galeria/mesa_cuadrada_14.jpeg', alt: 'Primer plano de tuerca de seguridad en el tubo de la pata', finish: 'Tornillería' },
-]
-
-const ROUND_PHOTOS: Photo[] = [
-  { src: '/images/galeria/mesa_redonda_05.jpeg', alt: 'Mesa redonda plegable con cubierta en madera tono caoba', finish: 'Caoba' },
-  { src: '/images/galeria/mesa_redonda_04.jpeg', alt: 'Mesa redonda plegable con cubierta blanca y canto negro', finish: 'Blanco' },
-  { src: '/images/galeria/mesa_redonda_06.jpeg', alt: 'Vista frontal de mesa redonda con cubierta caoba y patas negras', finish: 'Vista frontal' },
-  { src: '/images/galeria/mesa_redonda_07.jpeg', alt: 'Mesas redondas plegadas y empacadas mostrando la estructura inferior', finish: 'Listas para entrega' },
-  { src: '/images/galeria/mesa_redonda_08.jpeg', alt: 'Cubiertas redondas de madera en el taller antes del acabado', finish: 'Cubiertas en taller' },
-  { src: '/images/mesa-redonda-madera.jpeg', alt: 'Mesa redonda plegable con cubierta de madera', finish: 'Madera natural' },
-  { src: '/images/mesa-redonda-refuerzo.jpeg', alt: 'Vista inferior de mesa redonda mostrando refuerzos metálicos', finish: 'Vista inferior' },
 ]
 
 export function Catalog() {
@@ -77,7 +51,7 @@ export function Catalog() {
             Elige tu mesa y cotiza al instante
           </p>
           <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">
-            Selecciona la medida que necesitas y envíanos tu solicitud directamente por WhatsApp. Haz clic en cualquier imagen para verla en pantalla completa.
+            Selecciona la medida que necesitas y envíanos tu solicitud directamente por WhatsApp. Haz clic en cualquier imagen para verla en pantalla completa con zoom interactivo.
           </p>
         </div>
 
@@ -157,14 +131,27 @@ function ProductCard({
   const [photoIndex, setPhotoIndex] = useState(0)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
+  // Estado para el zoom interactivo con el mouse
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
+  const [isZoomed, setIsZoomed] = useState(false)
+
   const photo = photos[photoIndex]
-  const goTo = (step: number) => setPhotoIndex((i) => (i + step + photos.length) % photos.length)
+  const goTo = (step: number) => {
+    setIsZoomed(false)
+    setPhotoIndex((i) => (i + step + photos.length) % photos.length)
+  }
 
   const quoteUrl = getWhatsAppUrl(
     `Hola ${SITE_CONFIG.fullName}, quiero cotizar: ${productName}\nMedida: ${size}\nAltura: ${FIXED_HEIGHT}\nAcabado de referencia: ${photo.finish}`,
   )
 
-  // Cerrar lightbox con tecla Escape
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - left) / width) * 100
+    const y = ((e.clientY - top) / height) * 100
+    setZoomPos({ x, y })
+  }
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!isLightboxOpen) return
@@ -183,7 +170,10 @@ function ProductCard({
   return (
     <>
       <article className="flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-        <div className="group relative aspect-[4/3] overflow-hidden bg-muted cursor-pointer" onClick={() => setIsLightboxOpen(true)}>
+        <div
+          className="group relative aspect-[4/3] cursor-pointer overflow-hidden bg-muted"
+          onClick={() => setIsLightboxOpen(true)}
+        >
           <AnimatePresence initial={false}>
             <motion.div
               key={photo.src}
@@ -193,18 +183,24 @@ function ProductCard({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.45, ease: 'easeOut' }}
             >
-              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
             </motion.div>
           </AnimatePresence>
 
           {/* Overlay para ampliado */}
-          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity pointer-events-none group-hover:opacity-100">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-semibold text-foreground shadow-lg backdrop-blur">
               <Maximize2 className="size-3.5" /> Ampliar imagen
             </span>
           </div>
 
-          <span className="absolute left-3 top-3 z-10 rounded-md bg-background/90 px-2 py-1 text-xs font-semibold text-foreground">
+          <span className="absolute left-3 top-3 z-10 rounded-md bg-background/90 px-2 py-1 text-xs font-semibold text-foreground shadow-sm">
             {photo.finish}
           </span>
           <span className="absolute right-3 top-3 z-10 rounded-md bg-foreground/70 px-2 py-1 text-xs font-medium text-background">
@@ -218,7 +214,7 @@ function ProductCard({
               goTo(-1)
             }}
             aria-label="Foto anterior"
-            className="absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow transition-colors hover:bg-background"
+            className="absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-border/40 bg-background/90 text-foreground shadow transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground"
           >
             <ChevronLeft className="size-5" aria-hidden="true" />
           </button>
@@ -229,7 +225,7 @@ function ProductCard({
               goTo(1)
             }}
             aria-label="Foto siguiente"
-            className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow transition-colors hover:bg-background"
+            className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-border/40 bg-background/90 text-foreground shadow transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground"
           >
             <ChevronRight className="size-5" aria-hidden="true" />
           </button>
@@ -332,7 +328,7 @@ function ProductCard({
         </div>
       </article>
 
-      {/* MODAL LIGHTBOX / VISOR EN PANTALLA COMPLETA */}
+      {/* MODAL LIGHTBOX CON ZOOM LUPA INTERACTIVO */}
       <AnimatePresence>
         {isLightboxOpen && (
           <motion.div
@@ -342,34 +338,55 @@ function ProductCard({
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
             onClick={() => setIsLightboxOpen(false)}
           >
+            {/* Botón de Cierre */}
             <button
               type="button"
               onClick={() => setIsLightboxOpen(false)}
-              className="absolute right-4 top-4 z-50 flex size-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              className="absolute right-4 top-4 z-50 flex size-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all hover:bg-white/30 hover:scale-110"
               aria-label="Cerrar visor"
             >
               <X className="size-6" />
             </button>
 
             <div
-              className="relative flex max-h-[90vh] w-full max-w-4xl flex-col items-center justify-center"
+              className="relative flex max-h-[92vh] w-full max-w-5xl flex-col items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative aspect-[4/3] w-full max-h-[70vh] overflow-hidden rounded-xl bg-black">
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  className="object-contain"
-                  priority
-                />
+              {/* Contenedor de Imagen con Efecto Lupa */}
+              <div
+                className="relative aspect-[4/3] w-full max-h-[72vh] overflow-hidden rounded-xl bg-black cursor-crosshair"
+                onMouseEnter={() => setIsZoomed(true)}
+                onMouseLeave={() => setIsZoomed(false)}
+                onMouseMove={handleMouseMove}
+              >
+                <div
+                  className="relative h-full w-full transition-transform duration-150 ease-out"
+                  style={{
+                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                    transform: isZoomed ? 'scale(2.2)' : 'scale(1)',
+                  }}
+                >
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+
+                {!isZoomed && (
+                  <span className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+                    <ZoomIn className="size-3.5" /> Pasa el cursor para hacer zoom
+                  </span>
+                )}
               </div>
 
-              {/* Botones de navegación en el visor */}
+              {/* Botones de Navegación del Visor con Hover Resaltado */}
               <button
                 type="button"
                 onClick={() => goTo(-1)}
-                className="absolute left-2 top-1/2 -translate-y-1/2 flex size-12 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                className="absolute left-3 top-1/2 z-30 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-xl transition-all hover:scale-110 hover:border-emerald-400 hover:bg-emerald-600"
                 aria-label="Anterior"
               >
                 <ChevronLeft className="size-8" />
@@ -378,13 +395,13 @@ function ProductCard({
               <button
                 type="button"
                 onClick={() => goTo(1)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 flex size-12 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                className="absolute right-3 top-1/2 z-30 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-xl transition-all hover:scale-110 hover:border-emerald-400 hover:bg-emerald-600"
                 aria-label="Siguiente"
               >
                 <ChevronRight className="size-8" />
               </button>
 
-              {/* Información y botón de cotizar dentro del visor */}
+              {/* Pie del Visor */}
               <div className="mt-4 flex w-full flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
                 <div>
                   <h4 className="text-lg font-bold text-white">{title} — {photo.finish}</h4>
@@ -395,7 +412,7 @@ function ProductCard({
                   href={quoteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-whatsapp px-5 py-2.5 text-sm font-semibold text-whatsapp-foreground hover:bg-whatsapp-hover transition-colors"
+                  className="inline-flex items-center gap-2 rounded-md bg-whatsapp px-5 py-2.5 text-sm font-semibold text-whatsapp-foreground shadow-lg transition-colors hover:bg-whatsapp-hover"
                 >
                   <WhatsAppIcon className="size-4" />
                   Cotizar Referencia
