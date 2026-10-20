@@ -33,7 +33,7 @@ export const TECHNICAL_SPECS = [
 export const MAIN_SPEC_IMAGE: DetailImage = {
   src: '/images/galeria/mesa_cuadrada_09.jpeg',
   alt: 'Parte inferior de mesa rectangular con estructura en tubo cuadrado y travesaños de refuerzo',
-  title: 'Estructura reinforced a la vista',
+  title: 'Estructura reforzada a la vista',
   text: 'Travesaños metálicos atornillados bajo la cubierta, bisagras con seguro y patas en tubo cuadrado con pintura electrostática.',
 }
 
