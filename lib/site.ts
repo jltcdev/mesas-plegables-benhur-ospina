@@ -2,9 +2,8 @@ export const SITE_CONFIG = {
   name: 'Benhur Ospina',
   fullName: 'Mesas Plegables Benhur Ospina',
   tagline: 'Mesas Plegables & Banquetería',
-  description:
-    'Fabricación directa de mesas plegables de alta resistencia para eventos, banquetes, alquiler y hogar.',
-  url: 'https://mesas-plegables-benhur-ospina.vercel.app',
+  description:'Fabricación directa de mesas plegables de alta resistencia para eventos, banquetes, alquiler y hogar.',
+  url: 'https://mesasplegablesbenhurospina.com',
 
   contact: {
     phone: '(+57) 314 200 4393',
