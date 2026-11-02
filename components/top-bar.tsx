@@ -16,16 +16,6 @@ export function TopBar() {
             </span>
           </span>
 
-          {/* Email: Oculto en tablets estrechas (md), visible desde laptops (lg) */}
-          <a
-            href={`mailto:${SITE_CONFIG.contact.email}`}
-            className="hidden lg:flex items-center gap-1.5 font-medium transition-colors hover:text-white truncate min-w-0"
-            title={SITE_CONFIG.contact.email}
-          >
-            <Mail className="size-3.5 shrink-0 text-emerald-400" />
-            <span className="truncate">{SITE_CONFIG.contact.email}</span>
-          </a>
-
           {/* Teléfono */}
           <a
             href={`tel:${SITE_CONFIG.contact.phoneRaw}`}
@@ -34,11 +24,21 @@ export function TopBar() {
             <Phone className="size-3.5 shrink-0 text-emerald-400" />
             <span>{SITE_CONFIG.contact.phone}</span>
           </a>
+
+          {/* Email: Oculto en tablets estrechas (md), visible desde laptops (lg) */}
+          <a
+            href={`mailto:${SITE_CONFIG.contact.email}`}
+            className="flex items-center gap-1.5 font-medium transition-colors  hover:text-white whitespace-nowrap shrink-0"
+            title={SITE_CONFIG.contact.email}
+          >
+            <Mail className="size-3.5 shrink-0 text-emerald-400" />
+            <span>{SITE_CONFIG.contact.email}</span>
+          </a>
         </div>
 
         {/* Redes Sociales */}
         <div className="flex items-center gap-2 lg:gap-3.5 shrink-0 ml-4 border-l border-slate-800/80 pl-4">
-          <span className="hidden xl:inline text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
             Síguenos:
           </span>
 
