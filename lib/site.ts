@@ -16,7 +16,7 @@ export const SITE_CONFIG = {
   social: {
     facebook: 'https://facebook.com/mesasplegables.benhurospina',
     instagram: 'https://instagram.com/mesasplegables.benhurospina',
-    tiktok: 'https://tiktok.com/@mesasplegables.benhur',
+    tiktok: 'https://tiktok.com/@mesasplegables.bo',
   },
 
   whatsappMessages: {
