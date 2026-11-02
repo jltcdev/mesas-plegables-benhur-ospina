@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'benhur ospina',
   ],
   authors: [{ name: 'Mesas Plegables Benhur Ospina' }],
-  metadataBase: new URL('https://mesas-plegables-benhur-ospina.vercel.app'),
+  metadataBase: new URL('https://mesasplegablesbenhurospina.com'),
   alternates: {
     canonical: '/',
   },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Mesas Plegables Benhur Ospina | Fabricantes Directos',
     description:
       'Mobiliario de alta resistencia para eventos, banquetes, alquiler y hogar. Envíos y atención a nivel nacional.',
-    url: 'https://mesas-plegables-benhur-ospina.vercel.app',
+    url: 'https://mesasplegablesbenhurospina.com',
     siteName: 'Mesas Plegables Benhur Ospina',
     locale: 'es_CO',
     type: 'website',
@@ -50,8 +50,12 @@ export const metadata: Metadata = {
     images: ['/images/salon-eventos.jpg'],
   },
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    apple: '/icon.svg',
+    icon: [
+      { url: '/icon-light-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-icon.png',
   },
 }
 

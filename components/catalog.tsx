@@ -319,7 +319,7 @@ function ProductCard({
 
 function CustomCard() {
   const url = getWhatsAppUrl(
-    `Hola ${SITE_CONFIG.fullName}, necesito una mesa plegable sobre medida.\nLargo: \nAncho: \nAlto: \nCantidad: `,
+    `Hola ${SITE_CONFIG.fullName}, requiero una cotización sobre medida:\n- Largo deseado:\n- Ancho deseado:\n- Cantidad de mesas:\n- Acabado/Color preferido:`,
   )
 
   return (

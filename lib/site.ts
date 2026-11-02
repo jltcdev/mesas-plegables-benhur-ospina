@@ -11,6 +11,7 @@ export const SITE_CONFIG = {
     whatsappNumber: '573142004393',
     email: 'mesasplegables.benhurospina@gmail.com',
     location: 'Bogotá, Colombia (Envíos Nacionales)',
+    address: '',
   },
 
   social: {

@@ -9,7 +9,7 @@ export function SiteFooter() {
     <>
       <footer className="bg-foreground text-background">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
-          {/* Columna 1: Marca y descripción */}
+          {/* Columna 1: Marca, descripción e información institucional */}
           <div className="md:col-span-1">
             <a href="#inicio" aria-label={`${SITE_CONFIG.fullName} Inicio`} className="inline-block">
               <BrandLogo tone="light" />
@@ -17,6 +17,11 @@ export function SiteFooter() {
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-background/60">
               {SITE_CONFIG.description}
             </p>
+            {/* Ubicación e Información de Fábrica */}
+            <div className="mt-4 text-xs text-background/50 space-y-1">
+              <p>📍 {SITE_CONFIG.contact.address || 'Bogotá, Colombia'}</p>
+              <p>📞 {SITE_CONFIG.contact.phone}</p>
+            </div>
           </div>
 
           {/* Columna 2: Navegación */}
@@ -33,10 +38,12 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          {/* Columna 3: Cotización Rápida */}
+          {/* Columna 3: Cotización Rápida y Correo */}
           <div>
             <p className="text-sm font-semibold">Contacto & Cotización</p>
-            <p className="mt-3 text-sm text-background/60">Garantía de calidad y despachos a todo el país.</p>
+            <p className="mt-3 text-sm text-background/60">
+              Garantía de calidad y despachos a todo el país.
+            </p>
             
             <a
               href={whatsappUrl}
@@ -52,7 +59,9 @@ export function SiteFooter() {
           {/* Columna 4: Redes Sociales */}
           <div>
             <p className="text-sm font-semibold">Síguenos</p>
-            <p className="mt-3 text-sm text-background/60">Encuentra fotos de nuestros eventos y proyectos en redes:</p>
+            <p className="mt-3 text-sm text-background/60">
+              Encuentra fotos de nuestros proyectos y eventos en redes:
+            </p>
 
             <div className="mt-4 flex items-center gap-3">
               {/* Facebook */}
@@ -111,7 +120,7 @@ export function SiteFooter() {
 
         <div className="border-t border-background/10">
           <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-background/50">
-            {`© ${new Date().getFullYear()} ${SITE_CONFIG.name}. Todos los derechos reservados.`}
+            {`© ${new Date().getFullYear()} ${SITE_CONFIG.fullName || SITE_CONFIG.name}. Todos los derechos reservados.`}
           </p>
         </div>
       </footer>
