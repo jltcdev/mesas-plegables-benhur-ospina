@@ -346,6 +346,7 @@ function CustomCard() {
             </li>
           ))}
         </ul>
+        <br />
         <a
           href={url}
           target="_blank"

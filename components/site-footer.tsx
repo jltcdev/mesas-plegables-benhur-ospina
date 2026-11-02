@@ -55,18 +55,6 @@ export function SiteFooter() {
             <p className="mt-3 text-sm text-background/60">Encuentra fotos de nuestros eventos y proyectos en redes:</p>
 
             <div className="mt-4 flex items-center gap-3">
-              {/* Gmail / Correo */}
-              <a
-                href={`mailto:${SITE_CONFIG.contact.email}`}
-                aria-label="Enviar correo electrónico"
-                title={SITE_CONFIG.contact.email}
-                className="flex size-9 items-center justify-center rounded-full bg-background/10 text-background/80 hover:bg-red-600 hover:text-white transition-all shrink-0"
-              >
-                <svg className="size-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.455l8.073-5.962c1.618-1.214 3.927-.059 3.927 1.964z" />
-                </svg>
-              </a>
-
               {/* Facebook */}
               <a
                 href={SITE_CONFIG.social.facebook}
@@ -103,6 +91,18 @@ export function SiteFooter() {
               >
                 <svg className="size-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.57-1.31 1.56-1.29 2.57.01 1.17.65 2.27 1.66 2.87 1.02.6 2.33.62 3.37.06 1.06-.57 1.72-1.71 1.73-2.91.01-4.67.01-9.33.01-13.99z" />
+                </svg>
+              </a>
+
+              {/* Gmail / Correo */}
+              <a
+                href={`mailto:${SITE_CONFIG.contact.email}`}
+                aria-label="Enviar correo electrónico"
+                title={SITE_CONFIG.contact.email}
+                className="flex size-9 items-center justify-center rounded-full bg-background/10 text-background/80 hover:bg-red-600 hover:text-white transition-all shrink-0"
+              >
+                <svg className="size-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.455l8.073-5.962c1.618-1.214 3.927-.059 3.927 1.964z" />
                 </svg>
               </a>
             </div>

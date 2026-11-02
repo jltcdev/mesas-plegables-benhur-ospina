@@ -38,15 +38,6 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={DEFAULT_WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-2 rounded-md bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground transition-colors hover:bg-whatsapp-hover sm:inline-flex"
-            >
-              <WhatsAppIcon className="size-4" />
-              Cotizar en WhatsApp
-            </a>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
